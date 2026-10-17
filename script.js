@@ -104,11 +104,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, {
-    threshold: 0.1,
-    rootMargin: "0px 0px -40px 0px"
+    threshold: 0.05,
+    rootMargin: "0px 0px 80px 0px"
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
+
+  // Safety Fallback: Automatically reveal all elements after 1s so no visitor ever sees empty void
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-scale:not(.is-visible)').forEach(el => {
+      el.classList.add('is-visible');
+    });
+  }, 1000);
 
   // 6. Animated Number Counters
   const counterElements = document.querySelectorAll('.counter-value');
